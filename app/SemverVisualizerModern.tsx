@@ -634,7 +634,7 @@ const SemverVisualizerModern: React.FC = () => {
 
   return (
     <TooltipProvider>
-      <div className={`min-h-screen transition-colors duration-300 bg-gradient-to-br from-background via-purple-900/20 to-background relative overflow-hidden`}>
+      <div className="min-h-screen transition-colors duration-300 bg-[#0a0a0f] relative overflow-hidden">
         {/* Background Particles */}
         <Particles
           className="absolute inset-0"
@@ -655,7 +655,7 @@ const SemverVisualizerModern: React.FC = () => {
           />
         )}
         
-        <div className="container mx-auto px-4 py-4 max-w-7xl relative z-10">
+        <div className="w-full h-full px-6 py-4 relative z-10">
           {/* Header */}
           <div className="flex justify-between items-center mb-6">
             <div className="flex items-center gap-3">
@@ -751,18 +751,20 @@ const SemverVisualizerModern: React.FC = () => {
               
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Button 
-                    variant="outline" 
-                    size="icon"
-                    onClick={() => setShowHistory(true)}
-                  >
-                    <History className="w-4 h-4" />
+                  <div className="relative">
+                    <Button 
+                      variant="outline" 
+                      size="icon"
+                      onClick={() => setShowHistory(true)}
+                    >
+                      <History className="w-4 h-4" />
+                    </Button>
                     {releases.length > 0 && (
-                      <span className="absolute -top-1 -right-1 px-1.5 py-0.5 bg-primary text-primary-foreground text-xs rounded-full font-bold">
+                      <span className="absolute -top-1 -right-1 px-1.5 py-0.5 bg-primary text-primary-foreground text-xs rounded-full font-bold pointer-events-none">
                         {releases.length}
                       </span>
                     )}
-                  </Button>
+                  </div>
                 </TooltipTrigger>
                 <TooltipContent>View release history</TooltipContent>
               </Tooltip>
@@ -810,20 +812,17 @@ const SemverVisualizerModern: React.FC = () => {
 
           <div className="grid grid-cols-12 gap-4">
             {/* Main Commit Stream */}
-            <div className="col-span-12 lg:col-span-8">
-              <MagicCard 
-                className="relative h-[70vh] overflow-hidden"
-                gradientColor={darkMode ? "#262626" : "#D9D9D955"}
-              >
-                <BorderBeam size={250} duration={12} delay={9} />
+            <div className="col-span-12 lg:col-span-7">
+              <div className="relative h-[calc(100vh-240px)] bg-[#16162a] border border-gray-800 rounded-lg overflow-hidden">
+                <BorderBeam size={250} duration={12} delay={9} colorFrom="#10b981" colorTo="#8b5cf6" />
                 
                 {/* Version Display */}
-                <div className="absolute top-0 left-0 right-0 z-20 p-4 bg-gradient-to-b from-background/95 via-background/80 to-transparent">
+                <div className="absolute top-0 left-0 right-0 z-20 p-4 bg-gradient-to-b from-[#16162a]/95 via-[#16162a]/80 to-transparent">
                   <div className="flex justify-center">
                     <div className="flex items-center gap-4">
                       {/* Current Version */}
-                      <Card className="p-4 border-2">
-                        <div className="text-xs font-semibold mb-1 tracking-wider text-muted-foreground text-center">
+                      <div className="p-4 bg-[#0a0a0f] border border-emerald-500/30 rounded-lg">
+                        <div className="text-xs font-semibold mb-1 tracking-wider text-emerald-400 text-center">
                           CURRENT VERSION
                         </div>
                         <motion.div 
@@ -853,26 +852,13 @@ const SemverVisualizerModern: React.FC = () => {
                             {currentVersion.patch}
                           </motion.span>
                         </motion.div>
-                      </Card>
+                      </div>
 
                       {/* Animated Arrow and Next Version */}
                       <AnimatePresence>
                         {unreleasedCommits.length > 0 && (
                           <>
-                            <motion.div
-                              initial={{ opacity: 0, x: -20 }}
-                              animate={{ opacity: 1, x: 0 }}
-                              exit={{ opacity: 0, x: -20 }}
-                              className="flex items-center"
-                            >
-                              <motion.div
-                                animate={{ x: [0, 10, 0] }}
-                                transition={{ duration: 1.5, repeat: Infinity }}
-                                className="text-primary"
-                              >
-                                <ChevronRight className="w-8 h-8" />
-                              </motion.div>
-                            </motion.div>
+                            {/* Removed animated arrow */}
 
                             {/* Next Version that will transition */}
                             <motion.div
@@ -992,7 +978,7 @@ const SemverVisualizerModern: React.FC = () => {
                 {/* Animated Commit Stream */}
                 <div className="relative h-full pt-40 p-4 overflow-hidden">
                   <AnimatePresence>
-                    {allCommits.slice(0, 8).map((commit, index) => (
+                    {allCommits.slice(0, 12).map((commit, index) => (
                       <motion.div
                         key={commit.id}
                         initial={{ opacity: 0, y: 20, scale: 0.98 }}
@@ -1032,34 +1018,19 @@ const SemverVisualizerModern: React.FC = () => {
                     ))}
                   </AnimatePresence>
                 </div>
-              </MagicCard>
+              </div>
             </div>
 
             {/* Control Panel */}
-            <div className="col-span-12 lg:col-span-4">
-              <Card className="h-[70vh] flex flex-col p-6">
-                <CardHeader className="p-0 pb-4">
-                  <CardTitle>Commit Controls</CardTitle>
-                  <CardDescription>Add commits to see version changes</CardDescription>
-                </CardHeader>
+            <div className="col-span-12 lg:col-span-5">
+              <div className="h-[calc(100vh-240px)] bg-[#16162a] border border-gray-800 rounded-lg flex flex-col p-6">
+                <div className="p-0 pb-4">
+                  <h3 className="text-lg font-semibold text-emerald-400">Commit Controls</h3>
+                  <p className="text-sm text-gray-400">Add commits to see version changes</p>
+                </div>
                 
-                <CardContent className="flex-1 p-0">
-                  {/* Speed Controls */}
-                  <div className="flex gap-1 mb-4">
-                    {['paused', 'slow', 'normal', 'fast'].map((speed) => (
-                      <Button
-                        key={speed}
-                        variant={animationSpeed === speed ? 'default' : 'outline'}
-                        size="sm"
-                        onClick={() => setAnimationSpeed(speed as any)}
-                      >
-                        {speed === 'paused' && <Pause className="w-3 h-3" />}
-                        {speed === 'slow' && <ChevronRight className="w-3 h-3" />}
-                        {speed === 'normal' && <Play className="w-3 h-3" />}
-                        {speed === 'fast' && <FastForward className="w-3 h-3" />}
-                      </Button>
-                    ))}
-                  </div>
+                <div className="flex-1 p-0 overflow-hidden">
+                  {/* Speed Controls - Removed non-functional buttons */}
                   
                   {/* Commit Type Buttons */}
                   <div className="grid grid-cols-2 gap-2 mb-4">
@@ -1109,8 +1080,8 @@ const SemverVisualizerModern: React.FC = () => {
                       </div>
                     </CardContent>
                   </Card>
-                </CardContent>
-              </Card>
+                </div>
+              </div>
             </div>
           </div>
         </div>

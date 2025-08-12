@@ -6,7 +6,9 @@
       "Bash(npx shadcn@latest add \"https://magicui.design/r/shimmer-button\")",
       "Bash(npx shadcn@latest init:*)",
       "Bash(npx shadcn@latest add \"https://magicui.design/r/magic-card\")",
-      "Bash(npm run build:*)"
+      "Bash(npm run build:*)",
+      "Bash(npm run dev:*)",
+      "Bash(git add:*)"
     ],
     "deny": [],
     "ask": []

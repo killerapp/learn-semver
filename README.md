@@ -4,6 +4,18 @@ An interactive tool to learn and understand [Semantic Versioning](https://semver
 
 🚀 **Live Demo**: [semver.agenticinsights.com](https://semver.agenticinsights.com)
 
+## Why Interactive Learning?
+
+Instead of traditional presentations or static documentation, this project demonstrates the power of **interactive learning experiences**. By leveraging modern web technologies and AI assistance, complex concepts like semantic versioning can be transformed into engaging, hands-on tools that make learning intuitive and memorable.
+
+This project was rapidly prototyped using:
+- **AI-powered development** for quick iteration and component selection
+- **Modern React libraries** (shadcn/ui, Magic UI) for polished UI
+- **TypeScript** for type-safe development
+- **Cloudflare Pages** for instant global deployment
+
+The result? A fully functional learning tool deployed in hours, not weeks.
+
 ## Features
 
 ### 🎯 Interactive Learning
@@ -55,16 +67,24 @@ Open [http://localhost:3000](http://localhost:3000) to see the app.
 
 ## Deployment
 
-See [DEPLOYMENT.md](DEPLOYMENT.md) for detailed instructions on deploying to Cloudflare Pages.
+✅ **Currently deployed on Cloudflare Pages** at [semver.agenticinsights.com](https://semver.agenticinsights.com)
+
+See [DEPLOYMENT.md](DEPLOYMENT.md) for detailed instructions on deploying your own instance.
 
 ### Quick Deploy to Cloudflare Pages
 
-1. Fork this repository
-2. Connect to Cloudflare Pages
-3. Use these build settings:
-   - **Build command**: `npm run build`
-   - **Build directory**: `.next`
-   - **Node version**: 18
+```bash
+# Build for production
+npm run build
+
+# Deploy to Cloudflare Pages
+npm run deploy
+```
+
+The project is configured for static export with:
+- **Next.js static export** (`output: 'export'`)
+- **Cloudflare Pages** project name: `learn-semver`
+- **Custom domain**: Configured via Cloudflare DNS
 
 ## How It Works
 

@@ -1,6 +1,8 @@
 # Cloudflare Pages Deployment Guide
 
-This guide explains how to deploy the Semantic Version Visualizer to Cloudflare Pages.
+✅ **Successfully Deployed**: This application is running in production at [semver.agenticinsights.com](https://semver.agenticinsights.com)
+
+This guide explains how to deploy the Semantic Version Visualizer to Cloudflare Pages using static export.
 
 ## Prerequisites
 
@@ -8,9 +10,18 @@ This guide explains how to deploy the Semantic Version Visualizer to Cloudflare 
 - Git repository (GitHub, GitLab, or direct upload)
 - Node.js 18+ installed locally
 
+## Current Production Setup
+
+### Configuration Used
+- **Project Name**: `learn-semver`
+- **Deployment Method**: Static export via `wrangler` CLI
+- **Custom Domain**: `semver.agenticinsights.com`
+- **Build Output**: `./out` directory
+- **Next.js Config**: Static export mode (`output: 'export'`)
+
 ## Deployment Steps
 
-### Option 1: GitHub Integration (Recommended)
+### Option 1: CLI Deployment (Recommended for Static Sites)
 
 1. **Push to GitHub**
    ```bash
@@ -41,35 +52,43 @@ This guide explains how to deploy the Semantic Version Visualizer to Cloudflare 
    - Click "Save and Deploy"
    - Wait for the build to complete (typically 2-3 minutes)
 
-### Option 2: Direct Upload
+### Option 2: Wrangler CLI Deployment (Used in Production)
 
-1. **Build Locally**
+1. **Install Dependencies & Build**
    ```bash
    npm install
-   npm run build
+   npm run build  # Creates static export in ./out
    ```
 
-2. **Create Static Export** (for Next.js)
-   
-   Update `next.config.js`:
-   ```javascript
-   /** @type {import('next').NextConfig} */
-   const nextConfig = {
-     output: 'export',
-   }
-   module.exports = nextConfig
-   ```
-   
-   Then build:
+2. **Create Cloudflare Pages Project**
    ```bash
-   npm run build
+   npx wrangler pages project create learn-semver --production-branch main
    ```
 
-3. **Upload to Cloudflare Pages**
-   - Go to Cloudflare Dashboard → Workers & Pages
-   - Click "Create application" → "Pages"
-   - Upload your `out` directory
-   - Deploy
+3. **Deploy to Cloudflare Pages**
+   ```bash
+   npx wrangler pages deploy ./out --project-name=learn-semver
+   ```
+
+4. **Add Custom Domain (via API)**
+   ```bash
+   # Add domain to project
+   curl -X POST "https://api.cloudflare.com/client/v4/accounts/{account_id}/pages/projects/learn-semver/domains" \
+     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
+     -H "Content-Type: application/json" \
+     --data '{"name": "semver.agenticinsights.com"}'
+   
+   # Create CNAME record in DNS
+   curl -X POST "https://api.cloudflare.com/client/v4/zones/{zone_id}/dns_records" \
+     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
+     -H "Content-Type: application/json" \
+     --data '{
+       "type": "CNAME",
+       "name": "semver",
+       "content": "learn-semver.pages.dev",
+       "proxied": true
+     }'
+   ```
 
 ## Custom Domain Setup
 
@@ -92,16 +111,37 @@ This guide explains how to deploy the Semantic Version Visualizer to Cloudflare 
 
 ## Build Configuration
 
-### `package.json` scripts
+### `package.json` scripts (Production Configuration)
 ```json
 {
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
+    "preview": "wrangler pages dev ./out",
+    "deploy": "npm run build && wrangler pages deploy ./out --project-name=learn-semver",
     "start": "next start",
     "lint": "next lint"
   }
 }
+```
+
+### `wrangler.toml` Configuration
+```toml
+name = "learn-semver"
+compatibility_date = "2025-08-12"
+pages_build_output_dir = "./out"
+```
+
+### `next.config.ts` for Static Export
+```typescript
+import type { NextConfig } from "next";
+
+const nextConfig: NextConfig = {
+  output: 'export',  // Enable static export
+  // ... other config
+};
+
+export default nextConfig;
 ```
 
 ### Optimizations for Production
@@ -161,16 +201,30 @@ This guide explains how to deploy the Semantic Version Visualizer to Cloudflare 
 | React     | `npm run build` | `build` |
 | Vue       | `npm run build` | `dist` |
 
-## Deployment Checklist
+## Production Deployment Checklist
 
-- [ ] Code pushed to repository
-- [ ] Build tested locally
-- [ ] Environment variables configured
-- [ ] Custom domain DNS configured
-- [ ] SSL certificate active
-- [ ] Analytics enabled
-- [ ] Test deployment URL works
-- [ ] Custom domain works
+- [✓] Code pushed to repository
+- [✓] Build tested locally (`npm run build`)
+- [✓] Static export configured (`output: 'export'`)
+- [✓] Cloudflare Pages project created
+- [✓] Deployed via wrangler CLI
+- [✓] Custom domain added to project
+- [✓] CNAME DNS record configured
+- [✓] SSL certificate active (automatic)
+- [✓] Site accessible at [semver.agenticinsights.com](https://semver.agenticinsights.com)
+
+## Lessons Learned
+
+### From Concept to Production
+
+This deployment demonstrates the power of modern tooling:
+
+1. **Rapid Prototyping**: Using AI assistance to quickly select and implement the right libraries (shadcn/ui, Magic UI, Framer Motion)
+2. **Static Export Benefits**: Next.js static export provides instant global CDN distribution via Cloudflare
+3. **CLI Automation**: Wrangler CLI enables scriptable deployments without manual dashboard configuration
+4. **Custom Domain Setup**: API-driven domain configuration allows full automation
+
+The entire process from idea to production deployment took less than a day, showcasing how AI-assisted development combined with modern deployment platforms enables rapid iteration on educational tools.
 
 ## Support
 
