@@ -6,7 +6,6 @@
     "dev": "next dev --turbopack -p 30020",
     "build": "next build",
     "preview": "wrangler pages dev ./out",
-    "deploy": "npm run build && wrangler pages deploy ./out --project-name=learn-semver",
     "start": "next start",
     "lint": "next lint"
   },

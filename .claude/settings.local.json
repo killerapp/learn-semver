@@ -8,7 +8,10 @@
       "Bash(npx shadcn@latest add \"https://magicui.design/r/magic-card\")",
       "Bash(npm run build:*)",
       "Bash(npm run dev:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(npx wrangler pages deployment list:*)",
+      "Bash(npx wrangler pages deploy:*)",
+      "Bash(gh secret set:*)"
     ],
     "deny": [],
     "ask": []

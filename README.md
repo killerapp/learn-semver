@@ -1,5 +1,8 @@
 # Semantic Version Visualizer
 
+[![Deploy to Cloudflare Pages](https://github.com/killerapp/learn-semver/actions/workflows/deploy.yml/badge.svg)](https://github.com/killerapp/learn-semver/actions/workflows/deploy.yml)
+[![Live Demo](https://img.shields.io/badge/demo-live-brightgreen)](https://semver.agenticinsights.com)
+
 An interactive tool to learn and understand [Semantic Versioning](https://semver.org) through visual demonstrations.
 
 🚀 **Live Demo**: [semver.agenticinsights.com](https://semver.agenticinsights.com)
