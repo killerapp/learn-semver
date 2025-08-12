@@ -1,36 +1,144 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Semantic Version Visualizer
+
+An interactive tool to learn and understand [Semantic Versioning](https://semver.org) through visual demonstrations.
+
+🚀 **Live Demo**: [semver.agenticinsights.com](https://semver.agenticinsights.com)
+
+## Features
+
+### 🎯 Interactive Learning
+- **Visual Commit Stream**: Watch commits flow and affect version numbers in real-time
+- **Commit Type Buttons**: Add different types of commits to see their impact:
+  - 🔴 **Breaking Changes** → Major version bump (X.0.0)
+  - 🟢 **Features** → Minor version bump (x.X.0)
+  - 🔵 **Fixes** → Patch version bump (x.x.X)
+  - Plus docs, style, refactor, test, and chore commits
+
+### ✨ Modern UI/UX
+- Built with **shadcn/ui** and **Magic UI** components
+- Smooth animations with Framer Motion
+- Dark/Light theme support
+- Sound effects for interactions
+- Particle effects and confetti celebrations
+
+### 💾 Data Persistence
+- **Local Storage**: Automatically saves your work
+- **Import/Export**: Backup and share your version history
+- **Release History**: Track all your releases over time
+
+### 📚 Educational Resources
+- Tooltips explaining each commit type's impact
+- Links to semver.org and other learning resources
+- Visual feedback showing version progression
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+- Node.js 18+
+- npm or yarn
+
+### Installation
 
 ```bash
+# Clone the repository
+git clone https://github.com/killerapp/learn-semver.git
+cd learn-semver
+
+# Install dependencies
+npm install
+
+# Run development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to see the app.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Deployment
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+See [DEPLOYMENT.md](DEPLOYMENT.md) for detailed instructions on deploying to Cloudflare Pages.
 
-## Learn More
+### Quick Deploy to Cloudflare Pages
 
-To learn more about Next.js, take a look at the following resources:
+1. Fork this repository
+2. Connect to Cloudflare Pages
+3. Use these build settings:
+   - **Build command**: `npm run build`
+   - **Build directory**: `.next`
+   - **Node version**: 18
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## How It Works
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Semantic Versioning Rules
 
-## Deploy on Vercel
+Given a version number **MAJOR.MINOR.PATCH**, increment the:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. **MAJOR** version when you make incompatible API changes
+2. **MINOR** version when you add functionality in a backwards compatible manner
+3. **PATCH** version when you make backwards compatible bug fixes
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Commit Types
+
+| Type | Description | Version Impact |
+|------|-------------|----------------|
+| 🔴 `breaking` | Breaking changes | Major (X.0.0) |
+| 🟢 `feat` | New features | Minor (x.X.0) |
+| 🔵 `fix` | Bug fixes | Patch (x.x.X) |
+| 📝 `docs` | Documentation | No change |
+| 🎨 `style` | Code style | No change |
+| 🔧 `refactor` | Code refactoring | No change |
+| 🧪 `test` | Tests | No change |
+| 📦 `chore` | Maintenance | No change |
+
+## Tech Stack
+
+- **Framework**: [Next.js 15](https://nextjs.org) with Turbopack
+- **UI Components**: [shadcn/ui](https://ui.shadcn.com) + [Magic UI](https://magicui.design)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com)
+- **Animations**: [Framer Motion](https://www.framer.com/motion)
+- **Language**: TypeScript
+- **Deployment**: Cloudflare Pages
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## Roadmap
+
+- [x] Core visualization functionality
+- [x] Sound effects and animations
+- [x] Data persistence
+- [x] Import/Export functionality
+- [ ] Git integration for real commits
+- [ ] Customizable commit types
+- [ ] Pre-release version support
+- [ ] Team collaboration features
+
+## License
+
+MIT License - see [LICENSE](LICENSE) file for details
+
+## Credits
+
+Built with ❤️ by [Agentic Insights](https://agenticinsights.com)
+
+Special thanks to:
+- [Semantic Versioning Specification](https://semver.org)
+- [Conventional Commits](https://www.conventionalcommits.org)
+- [shadcn/ui](https://ui.shadcn.com) for the component library
+- [Magic UI](https://magicui.design) for additional components
+
+## Support
+
+For questions or support, please:
+- Open an [issue](https://github.com/killerapp/learn-semver/issues)
+- Visit [Agentic Insights](https://agenticinsights.com)
+
+---
+
+*Learn semantic versioning the visual way!* 🚀

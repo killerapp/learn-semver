@@ -13,9 +13,7 @@ import {
   TestTube,
   Package,
   Info,
-  X,
   ChevronRight,
-  ChevronDown,
   Pause,
   Play,
   FastForward,
@@ -27,17 +25,14 @@ import {
   Sparkles,
   GitBranch,
   History,
-  HelpCircle,
   Rocket,
   Tag,
-  ArrowDown,
   Github,
   Map,
   BookOpen,
   ExternalLink,
   Trash2,
   Upload,
-  Save,
   Database,
 } from 'lucide-react';
 
@@ -392,9 +387,9 @@ const SemverVisualizerModern: React.FC = () => {
           setReleases(state.releases.map((r: any) => ({
             ...r,
             timestamp: new Date(r.timestamp),
-            commits: r.commits.map((c: any) => ({
+            commits: (r.commits as Record<string, unknown>[]).map((c: Record<string, unknown>) => ({
               ...c,
-              timestamp: new Date(c.timestamp)
+              timestamp: new Date(c.timestamp as string)
             }))
           })));
         }

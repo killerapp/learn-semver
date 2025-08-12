@@ -5,7 +5,8 @@
       "WebFetch(domain:magicui.design)",
       "Bash(npx shadcn@latest add \"https://magicui.design/r/shimmer-button\")",
       "Bash(npx shadcn@latest init:*)",
-      "Bash(npx shadcn@latest add \"https://magicui.design/r/magic-card\")"
+      "Bash(npx shadcn@latest add \"https://magicui.design/r/magic-card\")",
+      "Bash(npm run build:*)"
     ],
     "deny": [],
     "ask": []
