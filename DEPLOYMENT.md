@@ -230,4 +230,3 @@ The entire process from idea to production deployment took less than a day, show
 
 - [Cloudflare Pages Docs](https://developers.cloudflare.com/pages/)
 - [Next.js on Cloudflare](https://developers.cloudflare.com/pages/framework-guides/nextjs/)
-- [Agentic Insights Support](https://agenticinsights.com/support)
