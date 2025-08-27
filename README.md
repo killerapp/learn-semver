@@ -5,7 +5,8 @@
 
 An interactive tool to learn and understand [Semantic Versioning](https://semver.org) through visual demonstrations.
 
-🚀 **Live Demo**: [semver.agenticinsights.com](https://semver.agenticinsights.com)
+🚀 **Live Demo**: [semver.agenticinsights.com](https://semver.agenticinsights.com)  
+✅ **Status**: Cloudflare deployment working (duplicate Worker issue resolved)
 
 ## Why Interactive Learning?
 
