@@ -16,7 +16,16 @@
       "Bash(npx kill-port:*)",
       "mcp__browser__browser_navigate",
       "mcp__browser__browser_get_clickable_elements",
-      "Bash(git log:*)"
+      "Bash(git log:*)",
+      "mcp__browser__browser_click",
+      "mcp__browser__browser_scroll",
+      "mcp__browser__browser_go_back",
+      "mcp__browser__browser_close",
+      "mcp__cloudflare-docs__search_cloudflare_documentation",
+      "WebSearch",
+      "WebFetch(domain:community.cloudflare.com)",
+      "mcp__browser__browser_form_input_fill",
+      "Bash(gh pr:*)"
     ],
     "deny": [],
     "ask": []
