@@ -44,15 +44,15 @@ export const RoadmapModal: React.FC<RoadmapModalProps> = ({ isOpen, onClose }) =
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
+      <DialogContent className="max-w-4xl max-h-[90vh] w-[95vw] sm:w-full overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Feature Roadmap</DialogTitle>
-          <DialogDescription>
+          <DialogTitle className="text-lg sm:text-xl">Feature Roadmap</DialogTitle>
+          <DialogDescription className="text-sm">
             Track our progress and see what's coming next
           </DialogDescription>
         </DialogHeader>
         
-        <div className="space-y-6 mt-4">
+        <div className="space-y-4 sm:space-y-6 mt-4">
           {/* Completed Features */}
           <div>
             <h3 className="text-lg font-semibold mb-3 text-green-500">✅ Completed</h3>

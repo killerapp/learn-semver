@@ -15,7 +15,8 @@
       "Bash(start http://localhost:30020)",
       "Bash(npx kill-port:*)",
       "mcp__browser__browser_navigate",
-      "mcp__browser__browser_get_clickable_elements"
+      "mcp__browser__browser_get_clickable_elements",
+      "Bash(git log:*)"
     ],
     "deny": [],
     "ask": []

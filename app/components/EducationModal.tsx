@@ -25,16 +25,16 @@ interface EducationModalProps {
 export const EducationModal: React.FC<EducationModalProps> = ({ isOpen, onClose }) => {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
+      <DialogContent className="max-w-4xl max-h-[90vh] w-[95vw] sm:w-full overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Semantic Versioning Guide</DialogTitle>
-          <DialogDescription>
+          <DialogTitle className="text-lg sm:text-xl">Semantic Versioning Guide</DialogTitle>
+          <DialogDescription className="text-sm">
             Learn how semantic versioning works and best practices
           </DialogDescription>
         </DialogHeader>
         
-        <div className="space-y-6 mt-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="space-y-4 sm:space-y-6 mt-4">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <Card className="p-4 border-red-500/30 bg-red-500/10">
               <div className="flex items-center gap-2 mb-2">
                 <Zap className="w-5 h-5 text-red-500" />

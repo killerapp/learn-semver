@@ -16,7 +16,8 @@ import {
   Trash2,
   Upload,
   Database,
-  Info
+  Info,
+  MoreHorizontal
 } from 'lucide-react';
 
 // UI Components
@@ -27,6 +28,13 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 // Magic UI Components
 import { BorderBeam } from '@/components/magicui/border-beam';
@@ -304,7 +312,7 @@ const SemverVisualizerModern: React.FC = () => {
 
   return (
     <TooltipProvider>
-      <div className="min-h-screen transition-colors duration-300 bg-[#0a0a0f] relative overflow-hidden" suppressHydrationWarning={true}>
+      <div className="min-h-screen transition-colors duration-300 bg-[#0a0a0f] relative" suppressHydrationWarning={true}>
         {/* Background Particles */}
         <Particles
           className="absolute inset-0"
@@ -325,14 +333,15 @@ const SemverVisualizerModern: React.FC = () => {
           />
         )}
         
-        <div className="w-full h-full px-6 py-4 relative z-10">
+        <div className="w-full min-h-screen px-4 sm:px-6 py-4 relative z-10 overflow-auto">
           {/* Header */}
-          <div className="flex justify-between items-center mb-6">
-            <div className="flex items-center gap-3">
-              <GitBranch className="w-6 h-6 text-primary" />
+          <div className="flex justify-between items-center mb-3 sm:mb-4">
+            <div className="flex items-center gap-2 sm:gap-3">
+              <GitBranch className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />
               <div>
-                <h1 className="text-2xl font-bold">
-                  Semantic Version Visualizer
+                <h1 className="text-lg sm:text-2xl font-bold">
+                  <span className="hidden sm:inline">Semantic Version Visualizer</span>
+                  <span className="sm:hidden">SemVer Visualizer</span>
                 </h1>
                 <p className="text-xs text-muted-foreground">
                   by <a href="https://agenticinsights.com" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">Agentic Insights</a>
@@ -363,127 +372,67 @@ const SemverVisualizerModern: React.FC = () => {
                 </motion.div>
               )}
             </div>
-            <div className="flex gap-2" suppressHydrationWarning={true}>
-              {/* Data Management */}
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button 
-                    variant="outline" 
-                    size="icon"
-                    onClick={handleExportData}
-                  >
-                    <Download className="w-4 h-4" />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>Export data</TooltipContent>
-              </Tooltip>
-              
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button 
-                    variant="outline" 
-                    size="icon"
-                    onClick={handleImportData}
-                  >
-                    <Upload className="w-4 h-4" />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>Import data</TooltipContent>
-              </Tooltip>
-              
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button 
-                    variant="outline" 
-                    size="icon"
-                    onClick={handleClearData}
-                  >
-                    <Trash2 className="w-4 h-4 text-destructive" />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>Clear all data</TooltipContent>
-              </Tooltip>
-              
-              <div className="w-px h-8 bg-border mx-1" />
-              
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button 
-                    variant="outline" 
-                    size="icon"
-                    onClick={() => setShowRoadmap(true)}
-                  >
-                    <Map className="w-4 h-4" />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>View roadmap</TooltipContent>
-              </Tooltip>
-              
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <div className="relative">
-                    <Button 
-                      variant="outline" 
-                      size="icon"
-                      onClick={() => setShowHistory(true)}
-                    >
-                      <History className="w-4 h-4" />
-                    </Button>
-                    {releases.length > 0 && (
-                      <span className="absolute -top-1 -right-1 px-1.5 py-0.5 bg-primary text-primary-foreground text-xs rounded-full font-bold pointer-events-none">
-                        {releases.length}
-                      </span>
-                    )}
-                  </div>
-                </TooltipTrigger>
-                <TooltipContent>View release history</TooltipContent>
-              </Tooltip>
-
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button 
-                    variant="outline" 
-                    size="icon"
-                    onClick={() => setSoundEnabled(!soundEnabled)}
-                  >
-                    {soundEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>{soundEnabled ? "Disable" : "Enable"} sound</TooltipContent>
-              </Tooltip>
-
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button 
-                    variant="outline" 
-                    size="icon"
-                    onClick={() => setDarkMode(!darkMode)}
-                  >
-                    {darkMode ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>Toggle theme</TooltipContent>
-              </Tooltip>
-
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button 
-                    variant="outline" 
-                    size="icon"
-                    onClick={() => setShowEducation(true)}
-                  >
-                    <Info className="w-4 h-4" />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>Learn about semantic versioning</TooltipContent>
-              </Tooltip>
-            </div>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" size="icon">
+                  <MoreHorizontal className="w-4 h-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-48">
+                <DropdownMenuItem onClick={() => setShowEducation(true)}>
+                  <Info className="w-4 h-4 mr-2" />
+                  Learn Semantic Versioning
+                </DropdownMenuItem>
+                
+                <DropdownMenuItem onClick={() => setShowHistory(true)}>
+                  <History className="w-4 h-4 mr-2" />
+                  Release History {releases.length > 0 && `(${releases.length})`}
+                </DropdownMenuItem>
+                
+                <DropdownMenuItem onClick={() => setShowRoadmap(true)}>
+                  <Map className="w-4 h-4 mr-2" />
+                  View Roadmap
+                </DropdownMenuItem>
+                
+                <DropdownMenuSeparator />
+                
+                <DropdownMenuItem onClick={() => setDarkMode(!darkMode)}>
+                  {darkMode ? <Sun className="w-4 h-4 mr-2" /> : <Moon className="w-4 h-4 mr-2" />}
+                  {darkMode ? 'Light' : 'Dark'} Mode
+                </DropdownMenuItem>
+                
+                <DropdownMenuItem onClick={() => setSoundEnabled(!soundEnabled)}>
+                  {soundEnabled ? <VolumeX className="w-4 h-4 mr-2" /> : <Volume2 className="w-4 h-4 mr-2" />}
+                  {soundEnabled ? 'Disable' : 'Enable'} Sound
+                </DropdownMenuItem>
+                
+                <DropdownMenuSeparator />
+                
+                <DropdownMenuItem onClick={handleExportData}>
+                  <Download className="w-4 h-4 mr-2" />
+                  Export Data
+                </DropdownMenuItem>
+                
+                <DropdownMenuItem onClick={handleImportData}>
+                  <Upload className="w-4 h-4 mr-2" />
+                  Import Data
+                </DropdownMenuItem>
+                
+                <DropdownMenuItem 
+                  onClick={handleClearData}
+                  className="text-destructive focus:text-destructive"
+                >
+                  <Trash2 className="w-4 h-4 mr-2" />
+                  Clear All Data
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
 
-          <div className="grid grid-cols-12 gap-4">
+          <div className="flex flex-col lg:grid lg:grid-cols-12 gap-4">
             {/* Main Commit Stream */}
-            <div className="col-span-12 lg:col-span-7">
-              <div className="relative h-[calc(100vh-240px)] bg-[#16162a] border border-gray-800 rounded-lg overflow-hidden">
+            <div className="order-2 lg:order-1 lg:col-span-7">
+              <div className="relative h-[50vh] lg:h-[calc(100vh-240px)] bg-[#16162a] border border-gray-800 rounded-lg overflow-hidden">
                 <BorderBeam size={250} duration={12} delay={9} colorFrom="#10b981" colorTo="#8b5cf6" />
                 
                 <VersionDisplay
@@ -502,7 +451,7 @@ const SemverVisualizerModern: React.FC = () => {
             </div>
 
             {/* Control Panel */}
-            <div className="col-span-12 lg:col-span-5">
+            <div className="order-1 lg:order-2 lg:col-span-5">
               <ControlPanel
                 allCommits={allCommits}
                 unreleasedCommits={unreleasedCommits}

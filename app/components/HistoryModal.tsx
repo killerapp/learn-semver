@@ -20,18 +20,18 @@ interface HistoryModalProps {
 export const HistoryModal: React.FC<HistoryModalProps> = ({ isOpen, onClose, releases }) => {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
+      <DialogContent className="max-w-4xl max-h-[90vh] w-[95vw] sm:w-full overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Release History</DialogTitle>
-          <DialogDescription>
+          <DialogTitle className="text-lg sm:text-xl">Release History</DialogTitle>
+          <DialogDescription className="text-sm">
             View all releases and their commits
           </DialogDescription>
         </DialogHeader>
         
         {/* Changelog Best Practices Section */}
-        <div className="mt-4 p-4 bg-[#16162a] border border-gray-800 rounded-lg">
+        <div className="mt-4 p-3 sm:p-4 bg-[#16162a] border border-gray-800 rounded-lg">
           <h3 className="text-sm font-semibold text-emerald-400 mb-3">📋 Changelog Best Practices</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
             <div>
               <h4 className="font-medium text-violet-400 mb-2">Standards & Conventions</h4>
               <ul className="space-y-1 text-gray-400">
@@ -54,9 +54,9 @@ export const HistoryModal: React.FC<HistoryModalProps> = ({ isOpen, onClose, rel
         </div>
 
         {/* Semver Tools & Resources Section */}
-        <div className="mt-4 p-4 bg-[#16162a] border border-gray-800 rounded-lg">
+        <div className="mt-4 p-3 sm:p-4 bg-[#16162a] border border-gray-800 rounded-lg">
           <h3 className="text-sm font-semibold text-emerald-400 mb-3">🚀 Semver Tools & Libraries</h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
             <div>
               <h4 className="font-medium text-violet-400 mb-2">JavaScript/Node.js</h4>
               <ul className="space-y-1 text-gray-400">
@@ -107,7 +107,7 @@ export const HistoryModal: React.FC<HistoryModalProps> = ({ isOpen, onClose, rel
                   </span>
                 </div>
                 
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                   {release.commits.map(commit => (
                     <Badge key={commit.id} variant="secondary" className="justify-start">
                       {React.createElement(commitTypeConfig[commit.type].icon, { 
