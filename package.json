@@ -7,7 +7,8 @@
     "build": "next build",
     "preview": "wrangler pages dev ./out",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "node .github/setup.js"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.14",
@@ -18,12 +19,10 @@
     "clsx": "^2.1.1",
     "framer-motion": "^12.23.12",
     "lucide-react": "^0.539.0",
-    "motion": "^12.23.12",
     "next": "15.4.6",
     "react": "19.1.0",
     "react-confetti": "^6.4.0",
     "react-dom": "19.1.0",
-    "react-tooltip": "^5.29.1",
     "tailwind-merge": "^3.3.1",
     "tailwindcss-animate": "^1.0.7"
   },
