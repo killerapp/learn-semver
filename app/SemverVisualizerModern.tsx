@@ -115,6 +115,7 @@ const SemverVisualizerModern: React.FC = () => {
   const [showRoadmap, setShowRoadmap] = useState(false);
   const [dataLoaded, setDataLoaded] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   // Custom hooks
   const { playSound } = useAudio(soundEnabled);
@@ -211,6 +212,14 @@ const SemverVisualizerModern: React.FC = () => {
       changes => dispatchVersion({ type: 'setPending', value: changes })
     );
   }, [importData]);
+
+  const handleMenuSelect = useCallback(
+    (action: () => void) => () => {
+      setMenuOpen(false);
+      action();
+    },
+    []
+  );
 
   const addCommit = useCallback((type: CommitType) => {
     const versionBefore = currentVersionString;
@@ -412,54 +421,54 @@ const SemverVisualizerModern: React.FC = () => {
                 </motion.div>
               )}
             </div>
-            <DropdownMenu>
+            <DropdownMenu open={menuOpen} onOpenChange={setMenuOpen}>
               <DropdownMenuTrigger asChild>
                 <Button variant="outline" size="icon">
                   <MoreHorizontal className="w-4 h-4" />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-48">
-                <DropdownMenuItem onClick={() => setShowEducation(true)}>
+                <DropdownMenuItem onSelect={handleMenuSelect(() => setShowEducation(true))}>
                   <Info className="w-4 h-4 mr-2" />
                   Learn Semantic Versioning
                 </DropdownMenuItem>
-                
-                <DropdownMenuItem onClick={() => setShowHistory(true)}>
+
+                <DropdownMenuItem onSelect={handleMenuSelect(() => setShowHistory(true))}>
                   <History className="w-4 h-4 mr-2" />
                   Release History {releases.length > 0 && `(${releases.length})`}
                 </DropdownMenuItem>
-                
-                <DropdownMenuItem onClick={() => setShowRoadmap(true)}>
+
+                <DropdownMenuItem onSelect={handleMenuSelect(() => setShowRoadmap(true))}>
                   <Map className="w-4 h-4 mr-2" />
                   View Roadmap
                 </DropdownMenuItem>
-                
+
                 <DropdownMenuSeparator />
-                
-                <DropdownMenuItem onClick={() => setDarkMode(!darkMode)}>
+
+                <DropdownMenuItem onSelect={handleMenuSelect(() => setDarkMode(!darkMode))}>
                   {darkMode ? <Sun className="w-4 h-4 mr-2" /> : <Moon className="w-4 h-4 mr-2" />}
                   {darkMode ? 'Light' : 'Dark'} Mode
                 </DropdownMenuItem>
-                
-                <DropdownMenuItem onClick={() => setSoundEnabled(!soundEnabled)}>
+
+                <DropdownMenuItem onSelect={handleMenuSelect(() => setSoundEnabled(!soundEnabled))}>
                   {soundEnabled ? <VolumeX className="w-4 h-4 mr-2" /> : <Volume2 className="w-4 h-4 mr-2" />}
                   {soundEnabled ? 'Disable' : 'Enable'} Sound
                 </DropdownMenuItem>
-                
+
                 <DropdownMenuSeparator />
-                
-                <DropdownMenuItem onClick={handleExportData}>
+
+                <DropdownMenuItem onSelect={handleMenuSelect(handleExportData)}>
                   <Download className="w-4 h-4 mr-2" />
                   Export Data
                 </DropdownMenuItem>
-                
-                <DropdownMenuItem onClick={handleImportData}>
+
+                <DropdownMenuItem onSelect={handleMenuSelect(handleImportData)}>
                   <Upload className="w-4 h-4 mr-2" />
                   Import Data
                 </DropdownMenuItem>
-                
-                <DropdownMenuItem 
-                  onClick={handleClearData}
+
+                <DropdownMenuItem
+                  onSelect={handleMenuSelect(handleClearData)}
                   className="text-destructive focus:text-destructive"
                 >
                   <Trash2 className="w-4 h-4 mr-2" />
