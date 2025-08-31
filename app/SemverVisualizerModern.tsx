@@ -3,10 +3,8 @@
 import React, { useState, useEffect, useCallback, useReducer } from 'react';
 import { motion } from 'framer-motion';
 import dynamic from 'next/dynamic';
-import { 
+import {
   Download,
-  Moon,
-  Sun,
   Volume2,
   VolumeX,
   GitBranch,
@@ -106,7 +104,6 @@ const SemverVisualizerModern: React.FC = () => {
   const [animationSpeed, setAnimationSpeed] = useState<'paused' | 'slow' | 'normal' | 'fast'>('normal');
   const [showEducation, setShowEducation] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
-  const [darkMode, setDarkMode] = useState(true);
   const [soundEnabled, setSoundEnabled] = useState(false);
   const [isReleasing, setIsReleasing] = useState(false);
   const [celebrateVersion, setCelebrateVersion] = useState<'major' | 'minor' | 'patch' | null>(null);
@@ -164,12 +161,11 @@ const SemverVisualizerModern: React.FC = () => {
       allCommits,
       unreleasedCommits,
       releases,
-      darkMode,
       soundEnabled,
       animationSpeed,
       setIsSaving
     );
-  }, [saveState, currentVersion, allCommits, unreleasedCommits, releases, darkMode, soundEnabled, animationSpeed]);
+  }, [saveState, currentVersion, allCommits, unreleasedCommits, releases, soundEnabled, animationSpeed]);
 
   const handleLoadState = useCallback(() => {
     loadState(
@@ -181,7 +177,6 @@ const SemverVisualizerModern: React.FC = () => {
       v => dispatchVersion({ type: 'setNext', value: v }),
       changes => dispatchVersion({ type: 'setPending', value: changes }),
       setReleases,
-      setDarkMode,
       setSoundEnabled,
       setAnimationSpeed,
       setDataLoaded
@@ -331,7 +326,7 @@ const SemverVisualizerModern: React.FC = () => {
       handleSaveState();
     }, 1000);
     return () => clearTimeout(timer);
-  }, [currentVersion, allCommits, unreleasedCommits, releases, darkMode, soundEnabled, animationSpeed, dataLoaded]); // Removed handleSaveState to prevent infinite loop
+  }, [currentVersion, allCommits, unreleasedCommits, releases, soundEnabled, animationSpeed, dataLoaded]); // Removed handleSaveState to prevent infinite loop
 
   // Auto-generate commits
   useEffect(() => {
@@ -350,15 +345,6 @@ const SemverVisualizerModern: React.FC = () => {
     return () => clearInterval(interval);
   }, [animationSpeed]); // Removed addCommit to prevent infinite loop
 
-  useEffect(() => {
-    const root = document.documentElement;
-    if (darkMode) {
-      root.classList.add('dark');
-    } else {
-      root.classList.remove('dark');
-    }
-  }, [darkMode]);
-
   return (
     <TooltipProvider>
       <div className="min-h-screen transition-colors duration-300 bg-[#0a0a0f] relative">
@@ -367,7 +353,7 @@ const SemverVisualizerModern: React.FC = () => {
           className="absolute inset-0"
           quantity={50}
           ease={80}
-          color={darkMode ? "#ffffff" : "#000000"}
+          color="#ffffff"
           refresh
         />
         
@@ -441,13 +427,6 @@ const SemverVisualizerModern: React.FC = () => {
                 <DropdownMenuItem onSelect={handleMenuSelect(() => setShowRoadmap(true))}>
                   <Map className="w-4 h-4 mr-2" />
                   View Roadmap
-                </DropdownMenuItem>
-
-                <DropdownMenuSeparator />
-
-                <DropdownMenuItem onSelect={handleMenuSelect(() => setDarkMode(!darkMode))}>
-                  {darkMode ? <Sun className="w-4 h-4 mr-2" /> : <Moon className="w-4 h-4 mr-2" />}
-                  {darkMode ? 'Light' : 'Dark'} Mode
                 </DropdownMenuItem>
 
                 <DropdownMenuItem onSelect={handleMenuSelect(() => setSoundEnabled(!soundEnabled))}>

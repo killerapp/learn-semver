@@ -9,7 +9,6 @@ export const useStateManagement = () => {
     allCommits: Commit[],
     unreleasedCommits: Commit[],
     releases: Release[],
-    darkMode: boolean,
     soundEnabled: boolean,
     animationSpeed: string,
     setIsSaving: (saving: boolean) => void
@@ -34,7 +33,6 @@ export const useStateManagement = () => {
             timestamp: c.timestamp.toISOString()
           }))
         })),
-        darkMode,
         soundEnabled,
         animationSpeed
       };
@@ -56,7 +54,6 @@ export const useStateManagement = () => {
     setNextVersion: (version: Version) => void,
     setPendingChanges: (changes: any) => void,
     setReleases: (releases: Release[]) => void,
-    setDarkMode: (dark: boolean) => void,
     setSoundEnabled: (enabled: boolean) => void,
     setAnimationSpeed: (speed: any) => void,
     setDataLoaded: (loaded: boolean) => void
@@ -115,7 +112,6 @@ export const useStateManagement = () => {
         }
         
         // Restore settings
-        if (state.darkMode !== undefined) setDarkMode(state.darkMode);
         if (state.soundEnabled !== undefined) setSoundEnabled(state.soundEnabled);
         if (state.animationSpeed) setAnimationSpeed(state.animationSpeed);
         
