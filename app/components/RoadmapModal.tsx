@@ -18,7 +18,6 @@ export const RoadmapModal: React.FC<RoadmapModalProps> = ({ isOpen, onClose }) =
     'Real-time version calculation following semver rules',
     'Animated commit stream with smooth transitions',
     'Sound effects for different commit types',
-    'Dark/Light theme toggle',
     'Release history tracking',
     'Educational tooltips and guide',
     'Magic UI/shadcn component integration',
@@ -48,7 +47,7 @@ export const RoadmapModal: React.FC<RoadmapModalProps> = ({ isOpen, onClose }) =
         <DialogHeader>
           <DialogTitle className="text-lg sm:text-xl">Feature Roadmap</DialogTitle>
           <DialogDescription className="text-sm">
-            Track our progress and see what's coming next
+            Track our progress and see what&apos;s coming next
           </DialogDescription>
         </DialogHeader>
         

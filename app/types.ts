@@ -1,10 +1,9 @@
-import { 
-  GitCommit, 
-  Zap, 
-  Bug, 
-  FileText, 
-  Palette, 
-  Wrench, 
+import {
+  Zap,
+  Bug,
+  FileText,
+  Palette,
+  Wrench,
   TestTube,
   Package,
   Sparkles
@@ -54,7 +53,6 @@ export const commitMessages = {
   ],
   feat: [
     'add user dashboard',
-    'implement dark mode toggle',
     'add export to PDF functionality',
     'introduce real-time notifications',
     'add multi-language support'

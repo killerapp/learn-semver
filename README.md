@@ -69,6 +69,16 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) to see the app.
 
+### Docker
+
+Build and run the app in a container:
+
+```bash
+docker compose up --build
+```
+
+Visit <http://localhost:3000> once the server starts.
+
 ## Deployment
 
 ✅ **Currently deployed on Cloudflare Pages** at [semver.agenticinsights.com](https://semver.agenticinsights.com)

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useCallback } from 'react';
 import { Version, Commit, Release, STORAGE_KEY } from '../types';
 
@@ -8,7 +9,6 @@ export const useStateManagement = () => {
     allCommits: Commit[],
     unreleasedCommits: Commit[],
     releases: Release[],
-    darkMode: boolean,
     soundEnabled: boolean,
     animationSpeed: string,
     setIsSaving: (saving: boolean) => void
@@ -33,7 +33,6 @@ export const useStateManagement = () => {
             timestamp: c.timestamp.toISOString()
           }))
         })),
-        darkMode,
         soundEnabled,
         animationSpeed
       };
@@ -55,7 +54,6 @@ export const useStateManagement = () => {
     setNextVersion: (version: Version) => void,
     setPendingChanges: (changes: any) => void,
     setReleases: (releases: Release[]) => void,
-    setDarkMode: (dark: boolean) => void,
     setSoundEnabled: (enabled: boolean) => void,
     setAnimationSpeed: (speed: any) => void,
     setDataLoaded: (loaded: boolean) => void
@@ -89,12 +87,15 @@ export const useStateManagement = () => {
           const newNext = calculateNextVersion(commits, state.currentVersion || currentVersion);
           setNextVersion(newNext);
           
-          const changes = { breaking: 0, feat: 0, fix: 0 };
-          commits.forEach((c: Commit) => {
-            if (c.type === 'breaking') changes.breaking++;
-            else if (c.type === 'feat') changes.feat++;
-            else if (c.type === 'fix') changes.fix++;
-          });
+          const changes = commits.reduce(
+            (acc, c: Commit) => {
+              if (c.type === 'breaking') acc.breaking++;
+              else if (c.type === 'feat') acc.feat++;
+              else if (c.type === 'fix') acc.fix++;
+              return acc;
+            },
+            { breaking: 0, feat: 0, fix: 0 }
+          );
           setPendingChanges(changes);
         }
         
@@ -111,7 +112,6 @@ export const useStateManagement = () => {
         }
         
         // Restore settings
-        if (state.darkMode !== undefined) setDarkMode(state.darkMode);
         if (state.soundEnabled !== undefined) setSoundEnabled(state.soundEnabled);
         if (state.animationSpeed) setAnimationSpeed(state.animationSpeed);
         

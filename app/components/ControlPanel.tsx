@@ -32,7 +32,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
       
       <div className="flex-1 p-0 overflow-hidden">
         {/* Commit Type Buttons */}
-        <div className="grid grid-cols-2 lg:grid-cols-2 gap-2 mb-4" suppressHydrationWarning={true}>
+        <div className="grid grid-cols-2 lg:grid-cols-2 gap-2 mb-4">
           {Object.entries(commitTypeConfig).slice(0, 4).map(([type, config]) => {
             const Icon = config.icon;
             return (
