@@ -352,7 +352,7 @@ const SemverVisualizerModern: React.FC = () => {
 
   return (
     <TooltipProvider>
-      <div className="min-h-screen transition-colors duration-300 bg-[#0a0a0f] relative" suppressHydrationWarning={true}>
+      <div className="min-h-screen transition-colors duration-300 bg-[#0a0a0f] relative">
         {/* Background Particles */}
         <Particles
           className="absolute inset-0"

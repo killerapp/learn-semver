@@ -39,13 +39,19 @@ export default function IDELayout({ children }: IDELayoutProps) {
   
   const [terminalOpen, setTerminalOpen] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [currentTime, setCurrentTime] = useState(new Date());
+  const [currentTime, setCurrentTime] = useState<string>("");
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentTime(new Date());
-    }, 1000);
+    const updateTime = () =>
+      setCurrentTime(
+        new Date().toLocaleTimeString("en-US", {
+          hour: "2-digit",
+          minute: "2-digit",
+        })
+      );
 
+    updateTime();
+    const timer = setInterval(updateTime, 1000);
     return () => clearInterval(timer);
   }, []);
 
@@ -216,7 +222,7 @@ export default function IDELayout({ children }: IDELayoutProps) {
                 main
               </span>
               <span className="text-emerald-400">● Port 30020</span>
-              <span className="text-gray-500">{currentTime.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}</span>
+              <span className="text-gray-500">{currentTime || '--:--'}</span>
             </div>
           </div>
         )}
