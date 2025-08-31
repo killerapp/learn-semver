@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useCallback } from 'react';
 import { Version, Commit, Release, STORAGE_KEY } from '../types';
 
@@ -89,12 +90,15 @@ export const useStateManagement = () => {
           const newNext = calculateNextVersion(commits, state.currentVersion || currentVersion);
           setNextVersion(newNext);
           
-          const changes = { breaking: 0, feat: 0, fix: 0 };
-          commits.forEach((c: Commit) => {
-            if (c.type === 'breaking') changes.breaking++;
-            else if (c.type === 'feat') changes.feat++;
-            else if (c.type === 'fix') changes.fix++;
-          });
+          const changes = commits.reduce(
+            (acc, c: Commit) => {
+              if (c.type === 'breaking') acc.breaking++;
+              else if (c.type === 'feat') acc.feat++;
+              else if (c.type === 'fix') acc.fix++;
+              return acc;
+            },
+            { breaking: 0, feat: 0, fix: 0 }
+          );
           setPendingChanges(changes);
         }
         

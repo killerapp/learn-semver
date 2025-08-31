@@ -1,8 +1,8 @@
 'use client';
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useReducer } from 'react';
 import { motion } from 'framer-motion';
-import Confetti from 'react-confetti';
+import dynamic from 'next/dynamic';
 import { 
   Download,
   Moon,
@@ -38,7 +38,12 @@ import {
 
 // Magic UI Components
 import { BorderBeam } from '@/components/magicui/border-beam';
-import { Particles } from '@/components/magicui/particles';
+
+const Confetti = dynamic(() => import('react-confetti'), { ssr: false });
+const Particles = dynamic(
+  () => import('@/components/magicui/particles').then((m) => m.Particles),
+  { ssr: false }
+);
 
 // Local Components
 import { VersionDisplay } from './components/VersionDisplay';
@@ -64,9 +69,37 @@ import {
   getRandomElement
 } from './types';
 
+interface VersionState {
+  current: Version;
+  next: Version;
+  pending: PendingChanges;
+}
+
+type VersionAction =
+  | { type: 'setCurrent'; value: Version }
+  | { type: 'setNext'; value: Version }
+  | { type: 'setPending'; value: PendingChanges };
+
+const versionReducer = (state: VersionState, action: VersionAction): VersionState => {
+  switch (action.type) {
+    case 'setCurrent':
+      return { ...state, current: action.value };
+    case 'setNext':
+      return { ...state, next: action.value };
+    case 'setPending':
+      return { ...state, pending: action.value };
+    default:
+      return state;
+  }
+};
+
 const SemverVisualizerModern: React.FC = () => {
-  const [currentVersion, setCurrentVersion] = useState<Version>({ major: 0, minor: 1, patch: 0 });
-  const [nextVersion, setNextVersion] = useState<Version>({ major: 0, minor: 1, patch: 0 });
+  const [versionState, dispatchVersion] = useReducer(versionReducer, {
+    current: { major: 0, minor: 1, patch: 0 },
+    next: { major: 0, minor: 1, patch: 0 },
+    pending: { breaking: 0, feat: 0, fix: 0 },
+  });
+  const { current: currentVersion, next: nextVersion, pending: pendingChanges } = versionState;
   const [allCommits, setAllCommits] = useState<Commit[]>([]);
   const [unreleasedCommits, setUnreleasedCommits] = useState<Commit[]>([]);
   const [releases, setReleases] = useState<Release[]>([]);
@@ -76,7 +109,6 @@ const SemverVisualizerModern: React.FC = () => {
   const [darkMode, setDarkMode] = useState(true);
   const [soundEnabled, setSoundEnabled] = useState(false);
   const [isReleasing, setIsReleasing] = useState(false);
-  const [pendingChanges, setPendingChanges] = useState<PendingChanges>({ breaking: 0, feat: 0, fix: 0 });
   const [celebrateVersion, setCelebrateVersion] = useState<'major' | 'minor' | 'patch' | null>(null);
   const [animateNextVersion, setAnimateNextVersion] = useState<'major' | 'minor' | 'patch' | null>(null);
   const [showConfetti, setShowConfetti] = useState(false);
@@ -99,21 +131,26 @@ const SemverVisualizerModern: React.FC = () => {
   };
 
   const calculateNextVersion = useCallback((commits: Commit[], current: Version): Version => {
-    let hasBreaking = false;
-    let hasFeat = false;
-    let hasFix = false;
+    let impact: 'breaking' | 'feat' | 'fix' | null = null;
+    for (const commit of commits) {
+      if (commit.type === 'breaking') {
+        impact = 'breaking';
+        break;
+      }
+      if (commit.type === 'feat' && impact !== 'feat') {
+        impact = 'feat';
+      } else if (!impact && commit.type === 'fix') {
+        impact = 'fix';
+      }
+    }
 
-    commits.forEach(commit => {
-      if (commit.type === 'breaking') hasBreaking = true;
-      else if (commit.type === 'feat') hasFeat = true;
-      else if (commit.type === 'fix') hasFix = true;
-    });
-
-    if (hasBreaking) {
+    if (impact === 'breaking') {
       return { major: current.major + 1, minor: 0, patch: 0 };
-    } else if (hasFeat) {
+    }
+    if (impact === 'feat') {
       return { major: current.major, minor: current.minor + 1, patch: 0 };
-    } else if (hasFix) {
+    }
+    if (impact === 'fix') {
       return { major: current.major, minor: current.minor, patch: current.patch + 1 };
     }
     return current;
@@ -137,11 +174,11 @@ const SemverVisualizerModern: React.FC = () => {
     loadState(
       calculateNextVersion,
       currentVersion,
-      setCurrentVersion,
+      v => dispatchVersion({ type: 'setCurrent', value: v }),
       setAllCommits,
       setUnreleasedCommits,
-      setNextVersion,
-      setPendingChanges,
+      v => dispatchVersion({ type: 'setNext', value: v }),
+      changes => dispatchVersion({ type: 'setPending', value: changes }),
       setReleases,
       setDarkMode,
       setSoundEnabled,
@@ -152,12 +189,12 @@ const SemverVisualizerModern: React.FC = () => {
 
   const handleClearData = useCallback(() => {
     clearData(
-      setCurrentVersion,
-      setNextVersion,
+      v => dispatchVersion({ type: 'setCurrent', value: v }),
+      v => dispatchVersion({ type: 'setNext', value: v }),
       setAllCommits,
       setUnreleasedCommits,
       setReleases,
-      setPendingChanges
+      changes => dispatchVersion({ type: 'setPending', value: changes })
     );
   }, [clearData]);
 
@@ -167,11 +204,11 @@ const SemverVisualizerModern: React.FC = () => {
 
   const handleImportData = useCallback(() => {
     importData(
-      setCurrentVersion,
+      v => dispatchVersion({ type: 'setCurrent', value: v }),
       setAllCommits,
       setReleases,
       setUnreleasedCommits,
-      setPendingChanges
+      changes => dispatchVersion({ type: 'setPending', value: changes })
     );
   }, [importData]);
 
@@ -192,16 +229,19 @@ const SemverVisualizerModern: React.FC = () => {
     setUnreleasedCommits(prev => {
       const updated = [newCommit, ...prev];
       const newNext = calculateNextVersion(updated, currentVersion);
-      setNextVersion(newNext);
-      
-      const changes = { breaking: 0, feat: 0, fix: 0 };
-      updated.forEach(c => {
-        if (c.type === 'breaking') changes.breaking++;
-        else if (c.type === 'feat') changes.feat++;
-        else if (c.type === 'fix') changes.fix++;
-      });
-      setPendingChanges(changes);
-      
+      dispatchVersion({ type: 'setNext', value: newNext });
+
+      const changes = updated.reduce(
+        (acc, c) => {
+          if (c.type === 'breaking') acc.breaking++;
+          else if (c.type === 'feat') acc.feat++;
+          else if (c.type === 'fix') acc.fix++;
+          return acc;
+        },
+        { breaking: 0, feat: 0, fix: 0 }
+      );
+      dispatchVersion({ type: 'setPending', value: changes });
+
       return updated;
     });
 
@@ -255,9 +295,9 @@ const SemverVisualizerModern: React.FC = () => {
       setCelebrateVersion(versionType);
       setTimeout(() => setCelebrateVersion(null), 2000);
       
-      setCurrentVersion(nextVersion);
+      dispatchVersion({ type: 'setCurrent', value: nextVersion });
       setUnreleasedCommits([]);
-      setPendingChanges({ breaking: 0, feat: 0, fix: 0 });
+      dispatchVersion({ type: 'setPending', value: { breaking: 0, feat: 0, fix: 0 } });
       setIsReleasing(false);
       
       setShowConfetti(true);
